@@ -1,0 +1,591 @@
+WindowManager:
+    name: "window_manager"
+    id: window_manager
+
+    WelcomeScreen:
+    StudentLoginScreen:
+    StudentDashboardScreen:
+    AdminLoginScreen:
+    AdminDashboardScreen:
+    ReservationFormScreen:
+
+<WelcomeScreen>:
+    name: "welcome_screen"
+    id: welcome_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (1, 1, 1, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "PUP Parañaque Campus Reservation System"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        Widget:
+            size_hint_y: None
+            height: dp(50)
+
+        AsyncImage:
+            source: 'pup.png'
+            size_hint: None, None
+            size: dp(250), dp(250)
+            pos_hint: {"center_x": .5}
+
+        MDBoxLayout:
+            padding: 40
+            orientation: "vertical"
+            spacing: "20dp"
+            md_bg_color: (1, 1, 1, 1)
+
+            MDLabel:
+                text: "Please click your destination below."
+                theme_font_name: "Custom"
+                font_name: "AlteHaasGroteskBold.ttf"
+                halign: "center"
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "50dp"
+                size_hint_x: .4
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release:
+                    app.root.current = "student_login_screen"
+                    root.manager.transition.direction = "left"
+
+                MDButtonIcon:
+                    icon: "book-open-page-variant"
+                    pos_hint: {"center_x": .35, "center_y": .5}
+
+                MDButtonText:
+                    text: "Student"
+                    theme_font_name: "Custom"
+                    font_name: "AlteHaasGroteskBold.ttf"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "50dp"
+                size_hint_x: .4
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release:
+                    app.root.current = "admin_login_screen"
+                    root.manager.transition.direction = "left"
+
+                MDButtonIcon:
+                    icon: "account-group-outline"
+                    pos_hint: {"center_x": .35, "center_y": .5}
+
+                MDButtonText:
+                    text: "Admin"
+                    theme_font_name: "Custom"
+                    font_name: "AlteHaasGroteskBold.ttf"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+<StudentLoginScreen>:
+    name: "student_login_screen"
+    id: student_login_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (237/255, 237/255, 237/255, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "Student Login"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBoxLayout:
+            padding: 40
+            spacing: 30
+            orientation: "vertical"
+            md_bg_color: (1, 1, 1, 1)
+
+            MDLabel:
+                text: "Welcome to the PUP-PQ Online Reservation System!\n Login and start your session."
+                theme_font_name: "Custom"
+                font_name: "AlteHaasGroteskBold.ttf"
+                theme_font_size: "Custom"
+                font_size: "20dp"
+                halign: "center"
+
+            MDTextField:
+                id: student_email
+                mode: "filled"
+                required: True
+
+                MDTextFieldLeadingIcon:
+                    icon: "account"
+                    theme_icon_color: "Custom"
+                    icon_color_normal: (128/255, 0, 0, 1)
+
+                MDTextFieldHintText:
+                    text: "Student Email Address"
+
+                MDTextFieldHelperText:
+                    text: "Enter your email address."
+                    mode: "on_focus"
+
+            MDTextField:
+                id: student_password
+                mode: "filled"
+                required: True
+                password: True
+
+                MDTextFieldLeadingIcon:
+                    icon: "key-variant"
+                    theme_icon_color: "Custom"
+                    icon_color_normal: (128/255, 0, 0, 1)
+
+                MDTextFieldHintText:
+                    text: "Student Password"
+
+                MDTextFieldHelperText:
+                    text: "Enter your password."
+                    mode: "on_focus"
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "50dp"
+                size_hint_x: .4
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release: app.student_login()
+
+                MDButtonIcon:
+                    icon: "login"
+                    pos_hint: {"center_x": .35, "center_y": .5}
+
+                MDButtonText:
+                    text: "Log In"
+                    theme_font_name: "Custom"
+                    font_name: "AlteHaasGroteskBold.ttf"
+                    theme_text_color: "Custom"
+                    text_color: (1, 1, 1, 1)
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBottomAppBar:
+            id: bottom_appbar
+
+            MDFabBottomAppBarButton:
+                icon: "arrow-left-bold-outline"
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                theme_icon_color: "Custom"
+                icon_color: "#ffffff"
+                on_release:
+                    app.root.current = "welcome_screen"
+                    root.manager.transition.direction = "right"
+
+<StudentDashboardScreen>:
+    name: "student_dashboard_screen"
+    id: student_dashboard_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (1, 1, 1, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "Student Dashboard"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBoxLayout:
+            padding: 40
+            spacing: 30
+            orientation: "vertical"
+            spacing: "20dp"
+            md_bg_color: (1, 1, 1, 1)
+
+            MDLabel:
+                text: "Click your destination to fill-out the required fields to submit a reservation request\n or see the status of your request/s."
+                theme_font_name: "Custom"
+                font_name: "AlteHaasGroteskBold.ttf"
+                halign: "center"
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "50dp"
+                size_hint_x: .4
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release:
+                    app.root.current = "reservation_form_screen"
+                    root.manager.transition.direction = "left"
+
+                MDButtonText:
+                    text: "REQUEST FOR A RESERVATION"
+                    theme_font_name: "Custom"
+                    font_name: "AlteHaasGroteskBold.ttf"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "50dp"
+                size_hint_x: .4
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release:
+                    app.root.current = "admin_dashboard_screen"
+                    root.manager.transition.direction = "left"
+
+                MDButtonText:
+                    text: "SEE STATUS OF REQUEST/S"
+                    theme_font_name: "Custom"
+                    font_name: "AlteHaasGroteskBold.ttf"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+<AdminLoginScreen>:
+    name: "admin_login_screen"
+    id: admin_login_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (237/255, 237/255, 237/255, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "Admin Login"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBoxLayout:
+            padding: 40
+            spacing: 30
+            orientation: "vertical"
+            md_bg_color: (1, 1, 1, 1)
+
+            MDLabel:
+                text: "Welcome to the PUP-PQ Online Reservation System!\n Login to start your session."
+                theme_font_name: "Custom"
+                font_name: "AlteHaasGroteskBold.ttf"
+                theme_font_size: "Custom"
+                font_size: "20dp"
+                halign: "center"
+
+            MDTextField:
+                id: admin_email
+                mode: "filled"
+                required: True
+
+                MDTextFieldLeadingIcon:
+                    icon: "account"
+                    theme_icon_color: "Custom"
+                    icon_color_normal: (128/255, 0, 0, 1)
+
+                MDTextFieldHintText:
+                    text: "Admin Email Address"
+
+                MDTextFieldHelperText:
+                    text: "Enter your email address."
+                    mode: "on_focus"
+
+            MDTextField:
+                id: admin_password
+                mode: "filled"
+                required: True
+                password: True
+
+                MDTextFieldLeadingIcon:
+                    icon: "key-variant"
+                    theme_icon_color: "Custom"
+                    icon_color_normal: (128/255, 0, 0, 1)
+
+                MDTextFieldHintText:
+                    text: "Admin Password"
+
+                MDTextFieldHelperText:
+                    text: "Enter your password."
+                    mode: "on_focus"
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "50dp"
+                size_hint_x: .4
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release: app.admin_login()
+
+                MDButtonIcon:
+                    icon: "login"
+                    pos_hint: {"center_x": .35, "center_y": .5}
+
+                MDButtonText:
+                    text: "Log In"
+                    theme_font_name: "Custom"
+                    font_name: "AlteHaasGroteskBold.ttf"
+                    theme_text_color: "Custom"
+                    text_color: (1, 1, 1, 1)
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBottomAppBar:
+            id: bottom_appbar
+
+            MDFabBottomAppBarButton:
+                icon: "arrow-left-bold-outline"
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                theme_icon_color: "Custom"
+                icon_color: "#ffffff"
+                on_release:
+                    app.root.current = "welcome_screen"
+                    root.manager.transition.direction = "right"
+
+<AdminDashboardScreen>:
+    name: "admin_dashboard_screen"
+    id: admin_dashboard_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (237/255, 237/255, 237/255, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "Reservation Requests List"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBoxLayout:
+            padding: 30
+            spacing: 5
+            orientation: "vertical"
+            md_bg_color: (1, 1, 1, 1)
+
+            MDLabel:
+                text: "Click the accept (/) or deny button (X) to update the status of the requests."
+                theme_font_name: "Custom"
+                font_name: "AlteHaasGroteskBold.ttf"
+                theme_font_size: "Custom"
+                font_size: "17dp"
+                adaptive_height: True
+                halign: "center"
+
+            MDScrollView:
+
+                MDList:
+                    id: container
+                    padding: 40
+                    spacing: 10
+                    theme_bg_color: "Custom"
+                    md_bg_color: (199, 211, 216, 1)
+
+        MDBottomAppBar:
+            id: bottom_appbar
+
+            MDFabBottomAppBarButton:
+                icon: "arrow-left-bold-outline"
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                theme_icon_color: "Custom"
+                icon_color: "#ffffff"
+                on_release:
+                    app.root.current = "welcome_screen"
+                    root.manager.transition.direction = "left"
+
+<ReservationFormScreen>:
+    name: "reservation_form_screen"
+    id: reservation_form_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (237/255, 237/255, 237/255, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "Request Reservation"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        ScrollView:
+            MDBoxLayout:
+                padding: 70
+                spacing: 30
+                orientation: "vertical"
+                md_bg_color: (1,1,1, 1)  #white
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDTextField:
+                    id: item
+                    mode: "outlined"
+                    required: True
+
+                    MDTextFieldHintText:
+                        text: "Specify what you want to borrow/reserve"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                MDTextField:
+                    id: name
+                    mode: "outlined"
+                    required: True
+
+                    MDTextFieldHintText:
+                        text: "Last Name, First Name, Middle Initial"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                MDTextField:
+                    id: program_year_section
+                    mode: "outlined"
+                    required: True
+
+                    MDTextFieldHintText:
+                        text: "Program | Year & Section"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                MDTextField:
+                    id: contact_number
+                    mode: "outlined"
+                    required: True
+
+                    MDTextFieldHintText:
+                        text: "Contact Number"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                MDTextField:
+                    id: email
+                    mode: "outlined"
+                    required: True
+
+                    MDTextFieldHintText:
+                        text: "Email"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                MDTextField:
+                    id: date
+                    mode: "outlined"
+                    required: True
+                    on_focus: app.show_date_picker(self.focus)
+
+                    MDTextFieldHintText:
+                        text: "Date for Reservation"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                    MDTextFieldTrailingIcon:
+                        icon: "calendar"
+
+                MDTextField:
+                    id: time
+                    mode: "outlined"
+                    required: True
+                    on_focus:
+                        app.open_time_picker_horizontal(self.focus)                 if self.theme_cls.device_orientation == "landscape" else                 app.open_time_picker_vertical(self.focus)
+
+                    MDTextFieldHintText:
+                        text: "Time of Usage"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                    MDTextFieldTrailingIcon:
+                        icon: "clock-time-eight-outline"
+
+                MDTextField:
+                    id: prof
+                    mode: "outlined"
+                    required: True
+
+                    MDTextFieldHintText:
+                        text: "Professor"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+
+                MDButton:
+                    style: "elevated"
+                    theme_width: "Custom"
+                    height: "50dp"
+                    size_hint_x: .4
+                    theme_bg_color: "Custom"
+                    md_bg_color: (128/255, 0, 0, 1)
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    on_release: app.add_reservation()
+
+                    MDButtonIcon:
+                        icon: "content-save"
+                        pos_hint: {"center_x": .35, "center_y": .5}
+                        theme_text_color: "Custom"
+                        text_color: (1, 1, 1, 1)
+
+                    MDButtonText:
+                        text: "Submit"
+                        theme_font_name: "Custom"
+                        font_name: "AlteHaasGroteskBold.ttf"
+                        theme_text_color: "Custom"
+                        text_color: (1, 1, 1, 1)
+                        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBottomAppBar:
+            id: bottom_appbar
+
+            MDFabBottomAppBarButton:
+                icon: "arrow-left-bold-outline"
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                theme_icon_color: "Custom"
+                icon_color: "#ffffff"
+                on_release:
+                    app.root.current = "student_dashboard_screen"
+                    root.manager.transition.direction = "right"
