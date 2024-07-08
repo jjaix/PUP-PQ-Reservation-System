@@ -40,51 +40,19 @@ class CustomIconButton(MDIconButton):
             self.on_deny_btn_pressed()
 
     def on_approve_btn_pressed(self):
-        print(f"Approve button pressed: {self.reservation_item.id}")
-        md = MDDialog(
-            MDDialogIcon(icon="check-circle"),
-            MDDialogHeadlineText(
-                text="Reservation Request Approved!",
-            ),
-            MDDialogSupportingText(
-                text=f"You approved the reservation request for a {self.reservation_item.item}.",
-            ),
-            MDDialogContentContainer(
-                MDDivider(),
-                orientation="vertical"
-            ),
-            MDDialogButtonContainer(
-                Widget(),
-                MDButton(
-                    MDButtonText(
-                        text="Close",
-                        theme_text_color="Custom",
-                        text_color=(0, 0, 1, 1)
-                    ),
-                    style="text",
-                    on_release=lambda _: md.dismiss()
-                ),
-                spacing="10"
-            ),
-            auto_dismiss=False,
-        )
-
-        md.open()
+        self.show_dialog("check-circle", "Reservation Request Approved!",
+                         f"You approved the reservation request for a {self.reservation_item.item}.")
 
     def on_deny_btn_pressed(self):
-        print(f"Deny button pressed: {self.reservation_item.id}")
+        self.show_dialog("close-thick", "Reservation Request Denied.",
+                         f"You denied the reservation request for a {self.reservation_item.item}.")
+
+    def show_dialog(self, icon, headline, supporting_text):
         md = MDDialog(
-            MDDialogIcon(icon="close-thick"),
-            MDDialogHeadlineText(
-                text="Reservation Request Denied.",
-            ),
-            MDDialogSupportingText(
-                text=f"You denied the reservation request for a {self.reservation_item.item}.",
-            ),
-            MDDialogContentContainer(
-                MDDivider(),
-                orientation="vertical"
-            ),
+            MDDialogIcon(icon=icon),
+            MDDialogHeadlineText(text=headline),
+            MDDialogSupportingText(text=supporting_text),
+            MDDialogContentContainer(MDDivider(), orientation="vertical"),
             MDDialogButtonContainer(
                 Widget(),
                 MDButton(
@@ -94,14 +62,19 @@ class CustomIconButton(MDIconButton):
                         text_color=(0, 0, 1, 1)
                     ),
                     style="text",
-                    on_release=lambda _: md.dismiss()
+                    on_release=lambda instance: self.on_close_btn(instance, md)
                 ),
                 spacing="10"
             ),
             auto_dismiss=False,
         )
-
         md.open()
+
+    def on_close_btn(self, _, md):
+        res = db.remove_reservation_by_id(self.reservation_item.id)
+        if res:
+            md.dismiss()
+            self.app_root.load_reservations()
 
 
 class WelcomeScreen(MDScreen):
@@ -150,7 +123,7 @@ class MainApp(MDApp):
         student_password = student_screen.ids.student_password.text
 
         # Example authentication logic
-        if student_email == "student@gmail.com" and student_password == "password":
+        if student_email == "s" and student_password == "p":
             self.root.current = "student_dashboard_screen"
         else:
             if not self.dialog:
@@ -254,7 +227,8 @@ class MainApp(MDApp):
         self.root.get_screen("reservation_form_screen").ids.time.text = tm
         instance.dismiss()
 
-    def on_cancel(self, instance):
+    @staticmethod
+    def on_cancel(instance):
         instance.dismiss()
 
     def admin_login(self):
@@ -263,7 +237,7 @@ class MainApp(MDApp):
         admin_password = admin_screen.ids.admin_password.text
 
         # Example authentication logic
-        if admin_email == "admin@pup.edu.ph" and admin_password == "admin":
+        if admin_email == "a" and admin_password == "a":
             self.root.current = "admin_dashboard_screen"
         else:
             if not self.dialog:
@@ -397,69 +371,6 @@ class MainApp(MDApp):
                     )
                 )
             )
-
-    # def updated_reservation_status(self, reservation, status):
-    #     db.update_reservation_by_id(reservation, status)
-    #
-    #     for res in self.reservations:
-    #         if res == reservation:
-    #             res.status = status
-    #
-    #     self.load_reservations()
-    #
-    #     if status == "Approved":
-    #         reservations = db.select_all_reservations()
-    #         container = self.root.get_screen("admin_dashboard_screen").ids.container
-    #         container.clear_widgets()
-    #
-    #         if len(reservations) > 0:
-    #             for reservation in reservations:
-    #                 row: ReservationRequests = ReservationRequests(*reservation)
-    #                 reservation_item = MDListItem(
-    #                     MDListItemLeadingIcon(
-    #                         icon="note-text"
-    #                     ),
-    #                     MDListItemHeadlineText(
-    #                         text=f"Reservation for: {row.item} | ID: {row.id}",
-    #                     ),
-    #                     MDListItemSupportingText(
-    #                         text=f"Requested by: {row.name} ({row.program_year_section})",
-    #                     ),
-    #                     MDListItemTertiaryText(
-    #                         text=f"Date of Reservation: {row.date} | Time of Using: {row.time}",
-    #                     )
-    #                 )
-    #
-    #                 status_info = MDButton(
-    #                     MDButtonIcon(
-    #                         icon="check-circle",
-    #                         theme_icon_color="Custom",
-    #                         icon_color=(0, 0, 1, 1)
-    #                         ),
-    #                     MDButtonText(
-    #                         style="tonal",
-    #                         text="Request Approved!",
-    #                         halign="center",
-    #                         theme_width="Custom",
-    #                         height="56dp",
-    #                         size_hint_x=.5,
-    #                         theme_text_color="Custom",
-    #                         text_color=(0, 0, 1, 1)
-    #                     ),
-    #                     style="text"
-    #                 )
-    #
-    #                 gl = MDGridLayout(
-    #                     cols=2,
-    #                     adaptive_width=True,
-    #                 )
-    #                 gl.add_widget(status_info)
-    #                 reservation_item.add_widget(gl)
-    #                 container.add_widget(reservation_item)
-    #
-    #     elif status == "Denied":
-    #         message = f"Reservation Denied for {reservation.first_name} {reservation.last_name}."
-    #         self.show_popup(message)
 
 
 if __name__ == '__main__':
