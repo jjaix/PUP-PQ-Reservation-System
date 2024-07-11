@@ -3,8 +3,7 @@ import logging
 
 from sqlite3 import Error
 
-from queries import CREATE_TABLE, INSERT_RESERVATION, SELECT_ALL_RESERVATIONS, SELECT_RESERVATION_BY_ID, \
-    UPDATE_RESERVATION_BY_ID, REMOVE_RESERVATION_BY_ID
+from queries import CREATE_TABLE, INSERT_RESERVATION, SELECT_ALL_RESERVATIONS, SELECT_RESERVATION_BY_ID
 
 
 class ReservationRequests:
@@ -46,24 +45,6 @@ class ReservationRequests:
             logging.error(e)
             return None
 
-    def update_reservation_by_id(self, reservation):
-        try:
-            self.cur.execute(UPDATE_RESERVATION_BY_ID, reservation)
-            self.conn.commit()
-            return True
-        except Error as e:
-            logging.error(e)
-            return False
-
-    def remove_reservation_by_id(self, reservation_id):
-        try:
-            self.cur.execute(REMOVE_RESERVATION_BY_ID, (reservation_id,))
-            self.conn.commit()
-            return True
-        except Error as e:
-            logging.error(e)
-            return False
-
     def _del__(self):
         if self.conn is not None:
             self.conn.close()
@@ -90,6 +71,6 @@ db = ReservationRequests()
 #         prof TEXT NOT NULL,
 #         updated DATETIME NOT NULL
 #     )
+# """)
 #
 # conn.commit()
-# """)
