@@ -8,6 +8,7 @@ WindowManager:
     AdminLoginScreen:
     AdminDashboardScreen:
     ReservationFormScreen:
+    StatusScreen:
 
 <WelcomeScreen>:
     name: "welcome_screen"
@@ -403,15 +404,6 @@ WindowManager:
             orientation: "vertical"
             md_bg_color: (1, 1, 1, 1)
 
-            MDLabel:
-                text: "Click the accept (/) or deny button (X) to update the status of the requests."
-                theme_font_name: "Custom"
-                font_name: "AlteHaasGroteskBold.ttf"
-                theme_font_size: "Custom"
-                font_size: "17dp"
-                adaptive_height: True
-                halign: "center"
-
             MDScrollView:
 
                 MDList:
@@ -560,6 +552,8 @@ WindowManager:
                     size_hint_x: .4
                     theme_bg_color: "Custom"
                     md_bg_color: (128/255, 0, 0, 1)
+                    theme_icon_color: "Custom"
+                    icon_color: "#ffffff"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.add_reservation()
 
@@ -589,3 +583,61 @@ WindowManager:
                 on_release:
                     app.root.current = "student_dashboard_screen"
                     root.manager.transition.direction = "right"
+
+<StatusScreen>:
+    name: "status_screen"
+    id: status_screen
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: (237/255, 237/255, 237/255, 1)
+
+        MDTopAppBar:
+            id: top_appbar
+            type: "small"
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarTitle:
+                text: "Reservation Requests Status"
+                theme_font_name: "Custom"
+                font_name: "MADE Mirage Bold PERSONAL USE.otf"
+                md_bg_color: (128/255, 0, 0, 1)
+                text_color: (1, 1, 1, 1)
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBoxLayout:
+            padding: 30
+            spacing: 5
+            orientation: "vertical"
+            md_bg_color: (1, 1, 1, 1)
+
+            MDLabel:
+                text: "Here is the list of reservation requests and their statuses."
+                theme_font_name: "Custom"
+                font_name: "AlteHaasGroteskBold.ttf"
+                theme_font_size: "Custom"
+                font_size: "17dp"
+                adaptive_height: True
+                halign: "center"
+
+            MDScrollView:
+
+                MDList:
+                    id: status_container
+                    padding: 40
+                    spacing: 10
+                    theme_bg_color: "Custom"
+                    md_bg_color: (199, 211, 216, 1)
+
+        MDBottomAppBar:
+            id: bottom_appbar
+
+            MDFabBottomAppBarButton:
+                icon: "arrow-left-bold-outline"
+                theme_bg_color: "Custom"
+                md_bg_color: (128/255, 0, 0, 1)
+                theme_icon_color: "Custom"
+                icon_color: "#ffffff"
+                on_release:
+                    app.root.current = "welcome_screen"
+                    root.manager.transition.direction = "left"
