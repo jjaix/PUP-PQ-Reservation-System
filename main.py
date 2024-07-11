@@ -1,5 +1,4 @@
 from typing import Literal
-
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
@@ -12,7 +11,6 @@ from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.widget import Widget
 from kivymd.uix.pickers import MDModalDatePicker, MDTimePickerDialHorizontal, MDTimePickerDialVertical
 from kivy.properties import ObjectProperty
-from kivymd.theming import ThemeManager
 from kivy.clock import Clock
 from kivymd.uix.list import MDListItem, MDListItemHeadlineText, MDListItemLeadingIcon, \
     MDListItemSupportingText, MDListItemTertiaryText
@@ -71,10 +69,45 @@ class CustomIconButton(MDIconButton):
         md.open()
 
     def on_close_btn(self, _, md):
-        res = db.remove_reservation_by_id(self.reservation_item.id)
-        if res:
-            md.dismiss()
-            self.app_root.load_reservations()
+        md.dismiss()
+        self.change_to_status_button()
+
+    def change_to_status_button(self):
+        # Remove approve/deny buttons and add status label
+        container = self.parent.parent
+        container.remove_widget(self.parent)
+        if self.btn_pressed == "approve":
+            status_label = MDButton(
+                    MDButtonIcon(
+                        icon="check-circle",
+                        theme_icon_color="Custom",
+                        icon_color=(0, 1, 0, 1)
+                    ),
+                    MDButtonText(
+                        text="Approved",
+                    ),
+                    style="filled",
+                    theme_bg_color="Custom",
+                    md_bg_color="#129413",
+                    pos_hint={"center_x": 0.5, "center_y": 0.5},
+                )
+        else:
+            status_label = MDButton(
+                MDButtonIcon(
+                    icon="close-circle",
+                    theme_icon_color="Custom",
+                    icon_color=(1, 0, 0, 1)
+                ),
+                MDButtonText(
+                    text="Denied",
+                ),
+                style="filled",
+                theme_bg_color="Custom",
+                md_bg_color="#871212",
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+            )
+
+        container.add_widget(status_label)
 
 
 class WelcomeScreen(MDScreen):
@@ -102,6 +135,10 @@ class AdminDashboardScreen(MDScreen):
 
 
 class ReservationFormScreen(MDScreen):
+    pass
+
+
+class StatusScreen(MDScreen):
     pass
 
 
@@ -181,7 +218,7 @@ class MainApp(MDApp):
     )
 
     def check_orientation(
-            self, instance: ThemeManager, orientation: ORIENTATION
+            self, orientation: ORIENTATION
     ):
         if orientation == "portrait" and self.time_picker_horizontal:
             self.time_picker_horizontal.dismiss()
@@ -310,7 +347,7 @@ class MainApp(MDApp):
 
                 self.load_reservations()
 
-                self.root.current = "admin_dashboard_screen"
+                self.root.current = "welcome_screen"
 
     def load_reservations(self):
         reservations = db.select_all_reservations()
@@ -336,16 +373,18 @@ class MainApp(MDApp):
                 )
 
                 approve_btn = CustomIconButton(
+                    id=f"approve_{row.id}",
                     icon="check-circle",
                     style="standard",
                     theme_icon_color="Custom",
-                    icon_color=(0, 0, 1, 1),
+                    icon_color=(0, 1, 0, 1),
                     btn_pressed="approve",
                     reservation_item=row,
-                    app_root=self.root
+                    app_root=self,
                 )
 
                 deny_btn = CustomIconButton(
+                    id=f"deny_{row.id}",
                     icon="close-circle",
                     style="standard",
                     theme_icon_color="Custom",
@@ -359,10 +398,12 @@ class MainApp(MDApp):
                     cols=2,
                     adaptive_width=True,
                 )
+
                 gl.add_widget(approve_btn)
                 gl.add_widget(deny_btn)
                 reservation_item.add_widget(gl)
                 container.add_widget(reservation_item)
+
         else:
             container.add_widget(
                 MDListItem(
