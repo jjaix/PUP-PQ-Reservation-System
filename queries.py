@@ -12,25 +12,10 @@ CREATE_TABLE = """CREATE TABLE IF NOT EXISTS reservations_tbl (
                 )"""
 
 INSERT_RESERVATION = """
-     INSERT INTO reservations_tbl (item, name, program_year_section, contact_number, email, date, time, prof, updated) 
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
- """
+    INSERT INTO reservations_tbl (item, name, program_year_section, contact_number, email, date, time, prof, updated)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+"""
 
 SELECT_ALL_RESERVATIONS = """SELECT * FROM reservations_tbl"""
 
 SELECT_RESERVATION_BY_ID = """SELECT * FROM reservations_tbl WHERE id = ?"""
-
-UPDATE_RESERVATION_BY_ID = """
-UPDATE reservations_tbl set 
-item = ?,
-name = ?, 
-program_year_section = ?, 
-contact_number = ?, 
-email = ?, 
-date = ?, 
-time = ?,
-prof = ?,
-updated = ?
-WHERE id = ?"""
-
-REMOVE_RESERVATION_BY_ID = """DELETE FROM reservations_tbl WHERE id = ?"""
